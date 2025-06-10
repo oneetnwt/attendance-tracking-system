@@ -3,7 +3,10 @@ import mongoose from 'mongoose'
 const userSchema = mongoose.Schema({
     studentId: {
         type: String,
-        required: true
+        required: true,
+        minLength: 10,
+        maxLength: 10,
+        unique: true
     },
     firstname: {
         type: String,
@@ -17,9 +20,9 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    qrCode: {
+    profile: {
         type: String,
-        required: true
+        default: "",
     }
 }, { timestamps: true });
 

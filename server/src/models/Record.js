@@ -1,13 +1,15 @@
 import mongoose from 'mongoose';
 
 const recordSchema = mongoose.Schema({
-    student: {
+    studentId: {
         type: mongoose.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     date: {
         type: Date,
         required: true,
+        default: Date.now
     },
     amTime: {
         type: Date
