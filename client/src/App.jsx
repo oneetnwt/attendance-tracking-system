@@ -143,7 +143,7 @@ function App() {
               d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
             />
           </svg>
-          Attendance Records
+          Today's Attendance Records
         </h2>
         {isLoading ? (
           <div className="space-y-3">
@@ -176,7 +176,12 @@ function App() {
             </div>
           </div>
         ) : !records || records.length === 0 ? (
-          <p className="text-gray-400 text-center py-8">No records found</p>
+          <div className="text-center py-8">
+            <p className="text-gray-400">No attendance records for today</p>
+            <p className="text-gray-500 text-sm mt-2">
+              Records will appear here as students check in
+            </p>
+          </div>
         ) : (
           <div className="space-y-3">
             <div className="grid grid-cols-2 gap-4">
