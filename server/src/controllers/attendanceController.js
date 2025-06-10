@@ -3,20 +3,20 @@ import User from "../models/User.js";
 
 export const getRecords = async (req, res) => {
   try {
-    const now = new Date();
-    const startDay = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
+    const today = new Date();
+    const startOfDay = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
       0,
       0,
       0,
       0
     );
-    const endDay = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
+    const endOfDay = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
       23,
       59,
       59,
@@ -24,12 +24,20 @@ export const getRecords = async (req, res) => {
     );
 
     const records = await Record.find({
-      date: { $gte: startDay, $lte: endDay },
-    }).populate(
-      "studentId",
-      "studentId studentId firstname lastname position profile"
-    );
-    res.status(200).json({ data: records });
+      date: { $gte: startOfDay, $lte: endOfDay },
+    }).populate("studentId", "studentId firstname lastname position profile");
+
+    if (!records || records.length === 0) {
+      return res.status(200).json({
+        message: "No attendance records found for today",
+        data: [],
+      });
+    }
+
+    res.status(200).json({
+      message: "Today's attendance records retrieved successfully",
+      data: records,
+    });
   } catch (error) {
     console.error("Error in getRecords controller:", error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -138,7 +146,7 @@ export const updateRecord = async (req, res) => {
 
 export const checkRecord = async (req, res) => {
   try {
-    const { studentId, date } = req.body;
+    const { studentId } = req.body;
 
     if (!studentId) {
       return res.status(400).json({
