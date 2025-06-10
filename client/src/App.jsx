@@ -39,7 +39,11 @@ function App() {
       setIsLoading(true);
       const response = await axiosInstance.get("/api/get-records");
       console.log("Records response:", response.data);
-      setRecords(response.data.data);
+      if (response.data && response.data.data) {
+        setRecords(response.data.data);
+      } else {
+        setRecords([]);
+      }
     } catch (error) {
       console.error("Failed to fetch records:", error);
       setError("Failed to load records");
@@ -171,7 +175,7 @@ function App() {
               ))}
             </div>
           </div>
-        ) : records.length === 0 ? (
+        ) : !records || records.length === 0 ? (
           <p className="text-gray-400 text-center py-8">No records found</p>
         ) : (
           <div className="space-y-3">
@@ -186,7 +190,7 @@ function App() {
                     <div className="flex items-center gap-4">
                       <div className="relative">
                         <img
-                          src={record.studentId.profile}
+                          src={record?.studentId?.profile || ""}
                           alt=""
                           className="w-14 h-14 rounded-full object-cover border border-gray-800/50 group-hover:border-[#ff7701]/50 transition-all duration-75"
                         />
@@ -194,25 +198,25 @@ function App() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="font-medium text-white group-hover:text-[#ff7701] transition-colors duration-75 truncate">
-                          {record.studentId.firstname}{" "}
-                          {record.studentId.lastname}
+                          {record?.studentId?.firstname || ""}{" "}
+                          {record?.studentId?.lastname || ""}
                         </div>
                         <div className="text-sm text-gray-500 truncate">
-                          {record.studentId.studentId} •{" "}
-                          {record.studentId.position}
+                          {record?.studentId?.studentId || ""} •{" "}
+                          {record?.studentId?.position || ""}
                         </div>
                       </div>
                     </div>
                     <div className="mt-3 pt-3 border-t border-gray-800/30">
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-gray-500 group-hover:text-gray-400 transition-colors duration-75">
-                          {formatDate(record.amTime || record.pmTime)}
+                          {formatDate(record?.amTime || record?.pmTime)}
                         </span>
                         <div className="flex items-center gap-4">
                           <div className="flex items-center gap-1.5">
                             <span
                               className={`w-1.5 h-1.5 rounded-full ${
-                                !record.amTime
+                                !record?.amTime
                                   ? "bg-red-400/50"
                                   : "bg-green-400/50"
                               } group-hover:scale-125 transition-transform duration-75`}
@@ -222,18 +226,18 @@ function App() {
                             </span>
                             <span
                               className={`${
-                                !record.amTime
+                                !record?.amTime
                                   ? "text-red-400/70"
                                   : "text-green-400/70"
                               } group-hover:text-opacity-100 transition-colors duration-75`}
                             >
-                              {formatTime(record.amTime)}
+                              {formatTime(record?.amTime)}
                             </span>
                           </div>
                           <div className="flex items-center gap-1.5">
                             <span
                               className={`w-1.5 h-1.5 rounded-full ${
-                                !record.pmTime
+                                !record?.pmTime
                                   ? "bg-red-400/50"
                                   : "bg-green-400/50"
                               } group-hover:scale-125 transition-transform duration-75`}
@@ -243,12 +247,12 @@ function App() {
                             </span>
                             <span
                               className={`${
-                                !record.pmTime
+                                !record?.pmTime
                                   ? "text-red-400/70"
                                   : "text-green-400/70"
                               } group-hover:text-opacity-100 transition-colors duration-75`}
                             >
-                              {formatTime(record.pmTime)}
+                              {formatTime(record?.pmTime)}
                             </span>
                           </div>
                         </div>
