@@ -165,7 +165,7 @@ export const checkRecord = async (req, res) => {
     }
 
     // Use provided date or default to today
-    const recordDate = date ? new Date(date) : new Date();
+    const recordDate = new Date();
     const startOfDay = new Date(
       recordDate.getFullYear(),
       recordDate.getMonth(),

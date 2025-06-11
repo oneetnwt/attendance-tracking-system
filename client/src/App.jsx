@@ -179,7 +179,7 @@ function App() {
           <div className="text-center py-8">
             <p className="text-gray-400">No attendance records for today</p>
             <p className="text-gray-500 text-sm mt-2">
-              Records will appear here as students check in
+              Records will appear here as student officers check in
             </p>
           </div>
         ) : (
